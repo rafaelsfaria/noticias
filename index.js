@@ -7,6 +7,8 @@ const bodyParser = require('body-parser')
 const User = require('./models/user')
 const news = require('./routes/news')
 const restrict = require('./routes/restrict')
+const auth = require('./routes/auth')
+const pages = require('./routes/pages')
 
 const app = express()
 mongoose.Promise = global.Promise
@@ -26,35 +28,17 @@ app.use(session({
 
 app.use(express.static('public'))
 
-app.get('/', (req, res) => res.render('index'))
-app.use('/noticias', news)
-app.use('/restrito', (req, res, next) => {
+app.use((req, res, next) => {
   if ('user' in req.session) {
-    return next()
+    res.locals.user = req.session.user
   }
-  res.redirect('/login')
+  next()
 })
+
+app.use('/noticias', news)
 app.use('/restrito', restrict)
-app.get('/login', (req, res) => res.render('login'))
-app.post('/login', async (req, res) => {
-  try {
-    const user = await User.findOne({ username: req.body.username })
-    if (user) {
-      const isValid = await user.checkPassword(req.body.password)
-      if (isValid) {
-        req.session.user = user
-        res.redirect('/restrito/noticias')
-      } else {
-        res.redirect('/login')
-      }
-    } else {
-      throw new Error('Usuário não encontrado')
-    }
-  } catch(e) {
-    console.log(e.message)
-    res.redirect('/login')
-  }
-})
+app.use('/', pages)
+app.use('/', auth)
 
 const createInitialUser = async () => {
   const total = await User.countDocuments({ username: 'rafael' })
