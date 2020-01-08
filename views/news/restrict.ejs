@@ -1,0 +1,14 @@
+<% include ../partials/header %>
+
+      <div class="starter-template">
+        <table>
+          <% news.forEach(obj => { %>
+          <tr>
+            <td><%= obj.title %></td>
+            <td><%= obj.category %></td>
+          </tr>
+          <% }) %>
+        </table>
+      </div>
+
+<% include ../partials/footer %>
