@@ -5,19 +5,18 @@ const router = express.Router()
 
 router.use((req, res, next) => {
   if ('user' in req.session) {
-    if (req.session.user.roles.indexOf('restrict') >= 0) {
+    if (req.session.user.roles.indexOf('admin') >= 0) {
       return next()
     } else {
-      res.redirect('/')
+      return res.redirect('/')
     }
-  } else {
-    res.redirect('/login')
   }
+  res.redirect('/login')
 })
-router.get('/', (req, res) => res.send('restrito'))
+router.get('/', (req, res) => res.send('admin'))
 router.get('/noticias', async (req, res) => {
-  const news = await News.find({ category: 'private' })
-  res.render('news/restrict', { news })
+  const news = await News.find({})
+  res.render('news/admin', { news })
 })
 
 module.exports = router

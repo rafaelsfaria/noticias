@@ -5,10 +5,12 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 
 const User = require('./models/user')
+
 const news = require('./routes/news')
 const restrict = require('./routes/restrict')
 const auth = require('./routes/auth')
 const pages = require('./routes/pages')
+const admin = require('./routes/admin')
 
 const app = express()
 mongoose.Promise = global.Promise
@@ -28,17 +30,11 @@ app.use(session({
 
 app.use(express.static('public'))
 
-app.use((req, res, next) => {
-  if ('user' in req.session) {
-    res.locals.user = req.session.user
-  }
-  next()
-})
-
+app.use('/', auth)
+app.use('/', pages)
 app.use('/noticias', news)
 app.use('/restrito', restrict)
-app.use('/', pages)
-app.use('/', auth)
+app.use('/admin', admin)
 
 const createInitialUser = async () => {
   const total = await User.countDocuments({ username: 'rafael' })
