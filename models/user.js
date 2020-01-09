@@ -3,15 +3,16 @@ const mongoose = require('mongoose')
 
 const UserSchema = new mongoose.Schema({
   username: {
-    type: String,
-    required: true
+    type: String
   },
   password: {
-    type: String,
-    required: true
+    type: String
   },
+  name: String,
+  facebookId: String,
   roles: {
     type: [String],
+    default: ['restrict'],
     enum: ['admin', 'restrict']
   }
 })
