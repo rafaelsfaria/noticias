@@ -3,6 +3,7 @@ const express = require('express')
 const session = require('express-session')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
+require('dotenv-safe').config()
 
 const User = require('./models/user')
 
