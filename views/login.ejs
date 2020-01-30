@@ -1,17 +1,17 @@
 <% include partials/header %>
 
 <div class="starter-template">
-  <form class="form-signin" method="post">
+  <form class="form-signin" action="/login" method="post">
     <img class="mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72"
       height="72">
     <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
     <label for="username" for="username" class="sr-only">Username</label>
-    <input type="text" name="username" id="username" class="form-control <% if(errors.indexOf('username') >= 0) { %> is-invalid <% } %>" placeholder="Usuário" autofocus>
+    <input type="text" name="username" id="username" class="form-control <% if(errors.fields.includes('username')) { %> is-invalid <% } %>" placeholder="Usuário" autofocus>
     <div class="invalid-feedback">
       Campo usuário inválido
     </div>
     <label for="inputPassword" for="inputPassword" class="sr-only">Password</label>
-    <input type="password" id="inputPassword" name="password" class="form-control <% if(errors.indexOf('password') >= 0) { %> is-invalid <% } %>" placeholder="Senha">
+    <input type="password" id="inputPassword" name="password" class="form-control <% if(errors.fields.includes('password')) { %> is-invalid <% } %>" placeholder="Senha">
     <div class="invalid-feedback">
       Campo senha inválido
     </div>

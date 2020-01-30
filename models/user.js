@@ -10,6 +10,7 @@ const UserSchema = new mongoose.Schema({
   },
   name: String,
   facebookId: String,
+  googleId: String,
   roles: {
     type: [String],
     default: ['restrict'],
@@ -30,7 +31,7 @@ UserSchema.pre('save', function(next) {
   })
 })
 
-UserSchema.methods.checkPassword = function(password) {
+UserSchema.methods.verifyPassword = function(password) {
   return new Promise((resolve, reject) => {
     bcrypt.compare(password, this.password, (err, success) => {
       if (err) {

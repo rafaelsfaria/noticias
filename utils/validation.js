@@ -1,3 +1,12 @@
+const Joi = require('@hapi/joi')
+
+const Schemas = {
+  login: Joi.object({
+    username: Joi.string().required(),
+    password: Joi.string().required()
+  })
+}
+
 const extractErrors = (error) => {
   const errors = error.details.reduce((prev, current) => {
     if (prev[current.path[0]]) {
@@ -27,5 +36,5 @@ const ValidationError = (message, errors) => ({
 })
 
 module.exports = {
-  extractErrors, validate, ValidationError
+  validate, ValidationError, Schemas
 }
